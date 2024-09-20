@@ -20,15 +20,24 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLinkEmail']);
-Route::post('/reset-password', [PasswordResetController::class, 'reset']);
-Route::get('/reset-password/{token}', function ($token) {
-    return ['token' => $token];
-})->name('password.reset');
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', [AuthController::class, 'user']);
-    Route::post('/logout', [AuthController::class, 'logout']);
+
+Route::middleware(['auth:sanctum', 'role:familia'])->group(function () {
+    Route::post('/anuncios', function () {
+        return response()->json(['message' => 'Acceso permitido para el rol familia'], 200);//Provisional
+    });
 });
+
+Route::middleware(['auth:sanctum', 'role:afa'])->group(function () {
+    Route::post('/gestionar-anuncios', function () {
+        return response()->json(['message' => 'Acceso permitido para el rol AFA'], 200);//Provisional
+    });
+});
+
+Route::middleware(['auth:sanctum', 'role:manager'])->group(function () {
+    Route::post('/crear-usuario-afa', function () {
+        return response()->json(['message' => 'Acceso permitido para el rol Manager'], 200);//Provisional
+    });
+});
+
+

@@ -45,11 +45,6 @@ class AuthController extends Controller
         ], 201);
     }
 
-    public function user(Request $request)
-    {
-        return response()->json($request->user());
-    }
-
     public function login(Request $request)
     {
         $request->validate([

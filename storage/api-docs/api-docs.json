@@ -144,52 +144,6 @@
                 }
             }
         },
-        "/forgot-password": {
-            "post": {
-                "tags": [
-                    "Authentication"
-                ],
-                "summary": "Send password reset link",
-                "operationId": "sendPasswordResetLink",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "email": {
-                                        "type": "string",
-                                        "example": "user@example.com"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Password reset link sent",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Enllaç de restabliment de contrasenya enviat"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation error"
-                    }
-                }
-            }
-        },
         "/reset-password": {
             "post": {
                 "tags": [
@@ -246,53 +200,6 @@
                         "description": "Invalid token or error resetting password"
                     }
                 }
-            }
-        },
-        "/user": {
-            "get": {
-                "tags": [
-                    "Authentication"
-                ],
-                "summary": "Get authenticated user details",
-                "operationId": "getUserDetails",
-                "responses": {
-                    "200": {
-                        "description": "Authenticated user details",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "id": {
-                                            "type": "integer",
-                                            "example": 1
-                                        },
-                                        "name": {
-                                            "type": "string",
-                                            "example": "Pedro Picapiedra"
-                                        },
-                                        "email": {
-                                            "type": "string",
-                                            "example": "user@example.com"
-                                        },
-                                        "role": {
-                                            "type": "string",
-                                            "example": "familia"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
             }
         },
         "/logout": {

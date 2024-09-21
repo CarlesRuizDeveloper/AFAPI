@@ -70,33 +70,6 @@ class AuthAnnotation
 
     /**
      * @OA\Post(
-     *     path="/forgot-password",
-     *     operationId="sendPasswordResetLink",
-     *     summary="Send password reset link",
-     *     tags={"Authentication"},
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             @OA\Property(property="email", type="string", example="user@example.com")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Password reset link sent",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Enllaç de restabliment de contrasenya enviat")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=422,
-     *         description="Validation error"
-     *     )
-     * )
-     */
-    public function forgotPassword() {}
-
-    /**
-     * @OA\Post(
      *     path="/reset-password",
      *     operationId="resetPassword",
      *     summary="Reset the password",
@@ -124,31 +97,6 @@ class AuthAnnotation
      * )
      */
     public function resetPassword() {}
-
-    /**
-     * @OA\Get(
-     *     path="/user",
-     *     operationId="getUserDetails",
-     *     summary="Get authenticated user details",
-     *     tags={"Authentication"},
-     *     security={{"sanctum": {}}},
-     *     @OA\Response(
-     *         response=200,
-     *         description="Authenticated user details",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="id", type="integer", example=1),
-     *             @OA\Property(property="name", type="string", example="Pedro Picapiedra"),
-     *             @OA\Property(property="email", type="string", example="user@example.com"),
-     *             @OA\Property(property="role", type="string", example="familia")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthenticated"
-     *     )
-     * )
-     */
-    public function getUserDetails() {}
 
     /**
      * @OA\Post(

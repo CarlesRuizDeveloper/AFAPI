@@ -171,4 +171,6 @@ class AuthAnnotation
      * )
      */
     public function logout() {}
+
+    
 }

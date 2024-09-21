@@ -16,7 +16,7 @@ class ManagerService
      */
     public function crearUsuarioAfa(array $data)
     {
-        // Validación de los datos
+
         $validator = Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -27,7 +27,6 @@ class ManagerService
             return response()->json($validator->errors(), 422);
         }
 
-        // Creación del usuario AFA
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],

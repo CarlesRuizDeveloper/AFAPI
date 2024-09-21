@@ -26,7 +26,7 @@ class AuthService
     public function login($data)
     {
         if (!Auth::attempt($data)) {
-            return null; // Si las credenciales son incorrectas
+            return null; 
         }
 
         $user = Auth::user();
@@ -41,7 +41,6 @@ class AuthService
         $user->tokens()->delete();
     }
 
-    // Enviar enlace de restablecimiento de contraseña
     public function sendResetLink($email)
     {
         $status = Password::sendResetLink(['email' => $email]);
@@ -49,7 +48,6 @@ class AuthService
         return $status;
     }
 
-    // Restablecer la contraseña
     public function resetPassword($data)
     {
         $status = Password::reset(

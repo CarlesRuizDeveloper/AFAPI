@@ -29,7 +29,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Rutas con middleware para cada rol
 Route::middleware(['auth:sanctum', 'role:familia'])->group(function () {
     Route::post('/anuncios', function () {
         return response()->json(['message' => 'Acceso permitido para el rol familia'], 200);
@@ -42,7 +41,6 @@ Route::middleware(['auth:sanctum', 'role:afa'])->group(function () {
     });
 });
 
-// Corregir la ruta del manager
 Route::middleware(['auth:sanctum', 'role:manager'])->group(function () {
     Route::post('/crear-usuario-afa', [ManagerController::class, 'crearUsuarioAfa']);
 });

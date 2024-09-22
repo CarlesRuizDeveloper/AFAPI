@@ -19,13 +19,13 @@ use App\Http\Controllers\ManagerController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLinkEmail']);//pdte de configurar mails pero pasan test
 Route::post('/reset-password', [PasswordResetController::class, 'reset']);//pdte de configurar mails pero pasan test
 Route::get('/reset-password/{token}', function ($token) {
     return view('auth.reset-password', ['token' => $token]);//pdte de configurar mails pero pasan test
 })->name('password.reset');
 
+Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

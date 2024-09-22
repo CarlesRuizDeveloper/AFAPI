@@ -209,9 +209,25 @@
                 ],
                 "summary": "Logout the authenticated user",
                 "operationId": "logoutUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "token": {
+                                        "type": "string",
+                                        "example": "123456"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
-                        "description": "Successfully logged out",
+                        "description": "Sessió tancada correctament",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -232,18 +248,12 @@
                 },
                 "security": [
                     {
-                        "sanctum": []
+                        "bearerAuth": []
                     }
                 ]
             }
         }
     },
-    "tags": [
-        {
-            "name": "Authentication",
-            "description": "Authentication"
-        }
-    ],
     "components": {
         "securitySchemes": {
             "sanctum": {
@@ -253,5 +263,11 @@
                 "in": "header"
             }
         }
-    }
+    },
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "Authentication"
+        }
+    ]
 }

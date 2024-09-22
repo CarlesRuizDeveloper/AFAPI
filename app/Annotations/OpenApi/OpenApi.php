@@ -11,6 +11,16 @@ namespace App\Annotations\OpenApi;
  *         email="support@example.com"
  *     ),
  * )
+ * 
+ * @OA\SecurityScheme(
+ *     type="http",
+ *     description="Introduce el token de autenticación en el formato 'Bearer {token}'",
+ *     name="Authorization",
+ *     in="header",
+ *     scheme="bearer",
+ *     bearerFormat="JWT",
+ *     securityScheme="sanctum",
+ * )
  *
  * @OA\Server(
  *     url="http://localhost:8000/api",

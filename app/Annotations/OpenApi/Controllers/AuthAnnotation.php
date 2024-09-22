@@ -104,10 +104,16 @@ class AuthAnnotation
      *     operationId="logoutUser",
      *     summary="Logout the authenticated user",
      *     tags={"Authentication"},
-     *     security={{"sanctum": {}}},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="token", type="string", example="123456"),
+     *         )
+     *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Successfully logged out",
+     *         description="Sessió tancada correctament",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Sessió tancada correctament")
      *         )
@@ -119,6 +125,4 @@ class AuthAnnotation
      * )
      */
     public function logout() {}
-
-    
 }

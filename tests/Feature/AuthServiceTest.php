@@ -65,7 +65,6 @@ class AuthServiceTest extends TestCase
 
     public function test_user_cannot_login_after_too_many_attempts()
     {
-        // Simulamos 5 intentos fallidos
         for ($i = 0; $i < 5; $i++) {
             $this->postJson('/api/login', [
                 'email' => 'testuser@example.com',
@@ -73,16 +72,13 @@ class AuthServiceTest extends TestCase
             ]);
         }
     
-        // Sexto intento, debería devolver un código 429
         $response = $this->postJson('/api/login', [
             'email' => 'testuser@example.com',
             'password' => 'wrongpassword',
         ]);
     
-        // Comprobamos que la respuesta sea 429
         $response->assertStatus(429);
     
-        // Comprobamos que el mensaje contiene el fragmento "Massa intents d'inici de sessió"
         $this->assertStringContainsString('Massa intents d\'inici de sessió', $response->json('message'));
     }
     
@@ -123,7 +119,6 @@ class AuthServiceTest extends TestCase
             'password_confirmation' => 'NewPassword@123',
         ]);
 
-        // Ajustamos el mensaje de error para coincidir con el que está devolviendo la API
         $response->assertStatus(400)->assertJson(['message' => 'Error al restablir la contrasenya']);
     }
 }

@@ -54,13 +54,11 @@ class AuthService
         return ['user' => $user, 'token' => $token];
     }
 
-    // Cerrar sesión
     public function logout($user)
     {
         $user->tokens()->delete();
     }
 
-    // Enviar enlace de restablecimiento de contraseña
     public function sendResetLink($data)
     {
         $status = Password::sendResetLink($data);
@@ -70,7 +68,6 @@ class AuthService
         }
     }
 
-    // Restablecer la contraseña
     public function resetPassword($data)
     {
         $status = Password::reset(
@@ -87,7 +84,6 @@ class AuthService
         }
     }
 
-    // Validar datos de registro
     protected function validateRegistration($data)
     {
         Validator::make($data, [
@@ -95,17 +91,16 @@ class AuthService
             'email' => 'required|string|email|max:255|unique:users',
             'password' => [
                 'required', 'string', 'min:8', 'confirmed',
-                'regex:/[a-z]/',   // Al menos una letra minúscula
-                'regex:/[A-Z]/',   // Al menos una letra mayúscula
-                'regex:/[0-9]/',   // Al menos un número
-                'regex:/[@$!%*?&]/' // Al menos un símbolo especial
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',   
+                'regex:/[@$!%*?&]/' 
             ]
         ], [
             'password.regex' => 'La contrasenya ha de tenir almenys 8 caràcters, incloent una majúscula, una minúscula, un número i un símbol especial.',
         ])->validate();
     }
 
-    // Validar datos de login
     protected function validateLogin($data)
     {
         Validator::make($data, [
@@ -114,7 +109,6 @@ class AuthService
         ])->validate();
     }
 
-    // Función para obtener la clave del Rate Limiter basada en la IP
     protected function getRateLimitKey(Request $request)
     {
         return 'login-attempts:' . $request->ip();

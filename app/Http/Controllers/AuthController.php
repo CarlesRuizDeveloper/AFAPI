@@ -36,19 +36,18 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        try {
-            $result = $this->authService->login($request->only('email', 'password'));
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
 
-            if (!$result) {
-                return response()->json(['message' => 'Credencials incorrectes o massa intents fallits.'], 401);
-            }
+        $result = $this->authService->login($request->only('email', 'password'));
 
-            return response()->json(['token' => $result['token'], 'user' => $result['user']], 200);
-        } catch (ValidationException $e) {
-            return response()->json(['errors' => $e->errors()], 422);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+        if (isset($result['error']) && $result['error']) {
+            return response()->json(['message' => $result['message']], $result['status']);
         }
+
+        return response()->json(['token' => $result['token'], 'user' => $result['user']], 200);
     }
 
     public function logout()

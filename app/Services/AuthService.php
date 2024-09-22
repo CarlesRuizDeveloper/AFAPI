@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Request;
 
 class AuthService
 {
     public function register($data)
     {
         $this->validateRegistration($data);
-        
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -24,16 +24,19 @@ class AuthService
         ]);
     }
 
-     public function login($data)
+    public function login($data)
     {
         $this->validateLogin($data);
 
-        $key = 'login-attempts:' . request()->ip();
+        $key = $this->getRateLimitKey(request());
 
         if (RateLimiter::tooManyAttempts($key, 5)) {
-            throw ValidationException::withMessages([
-                'email' => 'Massa intents d\'inici de sessió. Torna-ho a intentar més tard.',
-            ]);
+            $seconds = RateLimiter::availableIn($key);
+            return [
+                'error' => true,
+                'status' => 429,
+                'message' => "Massa intents d'inici de sessió. Torna-ho a intentar en $seconds segons.",
+            ];
         }
 
         if (!Auth::attempt($data)) {
@@ -51,11 +54,13 @@ class AuthService
         return ['user' => $user, 'token' => $token];
     }
 
+    // Cerrar sesión
     public function logout($user)
     {
         $user->tokens()->delete();
     }
 
+    // Enviar enlace de restablecimiento de contraseña
     public function sendResetLink($data)
     {
         $status = Password::sendResetLink($data);
@@ -65,6 +70,7 @@ class AuthService
         }
     }
 
+    // Restablecer la contraseña
     public function resetPassword($data)
     {
         $status = Password::reset(
@@ -81,28 +87,36 @@ class AuthService
         }
     }
 
-     protected function validateRegistration($data)
+    // Validar datos de registro
+    protected function validateRegistration($data)
     {
         Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => [
                 'required', 'string', 'min:8', 'confirmed',
-                'regex:/[a-z]/',   
-                'regex:/[A-Z]/',    
-                'regex:/[0-9]/',    
-                'regex:/[@$!%*?&]/' 
+                'regex:/[a-z]/',   // Al menos una letra minúscula
+                'regex:/[A-Z]/',   // Al menos una letra mayúscula
+                'regex:/[0-9]/',   // Al menos un número
+                'regex:/[@$!%*?&]/' // Al menos un símbolo especial
             ]
         ], [
             'password.regex' => 'La contrasenya ha de tenir almenys 8 caràcters, incloent una majúscula, una minúscula, un número i un símbol especial.',
         ])->validate();
     }
 
+    // Validar datos de login
     protected function validateLogin($data)
     {
         Validator::make($data, [
             'email' => 'required|email',
             'password' => 'required|string',
         ])->validate();
+    }
+
+    // Función para obtener la clave del Rate Limiter basada en la IP
+    protected function getRateLimitKey(Request $request)
+    {
+        return 'login-attempts:' . $request->ip();
     }
 }

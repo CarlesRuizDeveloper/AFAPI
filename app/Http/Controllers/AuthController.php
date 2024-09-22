@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\AuthService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
+<<<<<<< HEAD
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+=======
+>>>>>>> seguridad-en-login-y-register
 
 class AuthController extends Controller
 {
@@ -23,11 +25,24 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+<<<<<<< HEAD
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
+=======
+        try {
+            $this->authService->register($request->all());
+
+            return response()->json(['message' => 'Usuari creat correctament'], 201);
+        } catch (ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+>>>>>>> seguridad-en-login-y-register
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
@@ -54,8 +69,8 @@ class AuthController extends Controller
 
         $result = $this->authService->login($request->only('email', 'password'));
 
-        if (!$result) {
-            return response()->json(['message' => 'Credencials incorrectes'], 401);
+        if (isset($result['error']) && $result['error']) {
+            return response()->json(['message' => $result['message']], $result['status']);
         }
 
         return response()->json(['token' => $result['token'], 'user' => $result['user']], 200);
@@ -70,31 +85,27 @@ class AuthController extends Controller
 
     public function sendResetLinkEmail(Request $request)
     {
-        $request->validate(['email' => 'required|email']);
+        try {
+            $this->authService->sendResetLink($request->only('email'));
 
-        $status = $this->authService->sendResetLink($request->email);
-
-        if ($status == Password::RESET_LINK_SENT) {
-            return response()->json(['message' => 'Enllaç de restabliment de contrasenya enviat']);
+            return response()->json(['message' => 'Enllaç de restabliment de contrasenya enviat'], 200);
+        } catch (ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-
-        throw ValidationException::withMessages(['email' => [__($status)]]);
     }
 
     public function reset(Request $request)
     {
-        $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
+        try {
+            $this->authService->resetPassword($request->all());
 
-        $status = $this->authService->resetPassword($request->only('email', 'password', 'password_confirmation', 'token'));
-
-        if ($status == Password::PASSWORD_RESET) {
-            return response()->json(['message' => 'Contrasenya restablerta correctament']);
+            return response()->json(['message' => 'Contrasenya restablerta correctament'], 200);
+        } catch (ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-
-        return response()->json(['message' => __($status)], 400);
     }
 }

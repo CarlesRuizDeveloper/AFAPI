@@ -1,18 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\AuthService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-<<<<<<< HEAD
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-
-=======
->>>>>>> seguridad-en-login-y-register
 
 class AuthController extends Controller
 {
@@ -25,13 +17,6 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-<<<<<<< HEAD
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
-=======
         try {
             $this->authService->register($request->all());
 
@@ -42,22 +27,10 @@ class AuthController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
->>>>>>> seguridad-en-login-y-register
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        return response()->json([
-            'message' => 'Usuari creat correctament',
-            'user' => $user
-        ], 201);
+    public function user(Request $request)
+    {
+        return response()->json($request->user());
     }
 
     public function login(Request $request)

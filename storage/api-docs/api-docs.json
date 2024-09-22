@@ -38,11 +38,11 @@
                                     },
                                     "password": {
                                         "type": "string",
-                                        "example": "password123"
+                                        "example": "Newpassword123&"
                                     },
                                     "password_confirmation": {
                                         "type": "string",
-                                        "example": "password123"
+                                        "example": "Newpassword123&"
                                     }
                                 },
                                 "type": "object"
@@ -92,7 +92,7 @@
                                     },
                                     "password": {
                                         "type": "string",
-                                        "example": "password123"
+                                        "example": "Newpassword123&"
                                     }
                                 },
                                 "type": "object"
@@ -167,11 +167,11 @@
                                     },
                                     "password": {
                                         "type": "string",
-                                        "example": "newpassword"
+                                        "example": "Newpassword123&2"
                                     },
                                     "password_confirmation": {
                                         "type": "string",
-                                        "example": "newpassword"
+                                        "example": "Newpassword123&2"
                                     }
                                 },
                                 "type": "object"

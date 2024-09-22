@@ -15,8 +15,8 @@ class AuthAnnotation
      *         @OA\JsonContent(
      *             @OA\Property(property="name", type="string", example="Pedro Picapiedra"),
      *             @OA\Property(property="email", type="string", example="user@example.com"),
-     *             @OA\Property(property="password", type="string", example="password123"),
-     *             @OA\Property(property="password_confirmation", type="string", example="password123")
+     *             @OA\Property(property="password", type="string", example="Newpassword123&"),
+     *             @OA\Property(property="password_confirmation", type="string", example="Newpassword123&")
      *         )
      *     ),
      *     @OA\Response(
@@ -44,7 +44,7 @@ class AuthAnnotation
      *         required=true,
      *         @OA\JsonContent(
      *             @OA\Property(property="email", type="string", example="user@example.com"),
-     *             @OA\Property(property="password", type="string", example="password123")
+     *             @OA\Property(property="password", type="string", example="Newpassword123&")
      *         )
      *     ),
      *     @OA\Response(
@@ -79,8 +79,8 @@ class AuthAnnotation
      *         @OA\JsonContent(
      *             @OA\Property(property="token", type="string", example="123456"),
      *             @OA\Property(property="email", type="string", example="user@example.com"),
-     *             @OA\Property(property="password", type="string", example="newpassword"),
-     *             @OA\Property(property="password_confirmation", type="string", example="newpassword")
+     *             @OA\Property(property="password", type="string", example="Newpassword123&2"),
+     *             @OA\Property(property="password_confirmation", type="string", example="Newpassword123&2")
      *         )
      *     ),
      *     @OA\Response(

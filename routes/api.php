@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ManagerController;
+use App\Http\Controllers\LlibreDeTextController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,10 +25,16 @@ Route::post('/reset-password', [PasswordResetController::class, 'reset']);//pdte
 Route::get('/reset-password/{token}', function ($token) {
     return view('auth.reset-password', ['token' => $token]);//pdte de configurar mails pero pasan test
 })->name('password.reset');
-
+Route::get('/llibredetext', [LlibreDeTextController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/llibredetext', [LlibreDeTextController::class, 'store']);
+    Route::put('/llibredetext/{id}', [LlibreDeTextController::class, 'update']);
+    Route::delete('/llibredetext/{id}', [LlibreDeTextController::class, 'destroy']);
 });
 
 Route::middleware(['auth:sanctum', 'role:familia'])->group(function () {
@@ -45,3 +52,4 @@ Route::middleware(['auth:sanctum', 'role:afa'])->group(function () {
 Route::middleware(['auth:sanctum', 'role:manager'])->group(function () {
     Route::post('/crear-usuario-afa', [ManagerController::class, 'crearUsuarioAfa']);
 });
+

@@ -81,7 +81,8 @@ class LlibreDeTextController extends Controller
             $llibre = $this->llibreService->getByIdWithUser($id);
             return response()->json($llibre, 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 404);
+            return response()->json(['error' => 'Libro no encontrado'], 404);
         }
     }
+    
 }

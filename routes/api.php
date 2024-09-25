@@ -20,6 +20,7 @@ use App\Http\Controllers\LlibreDeTextController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/llibredetext/{id}', [LlibreDeTextController::class, 'show']);
 Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLinkEmail']);//pdte de configurar mails pero pasan test
 Route::post('/reset-password', [PasswordResetController::class, 'reset']);//pdte de configurar mails pero pasan test
 Route::get('/reset-password/{token}', function ($token) {

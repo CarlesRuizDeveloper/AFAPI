@@ -11,7 +11,7 @@ class LlibreDeTextService
     public function getAll()
     {
         try {
-            return LlibreDeText::with('user', 'category')->get(); 
+            return LlibreDeText::with('user')->orderBy('created_at', 'desc')->get();
         } catch (\Exception $e) {
             throw new \Exception('Error al obtener los libros');
         }

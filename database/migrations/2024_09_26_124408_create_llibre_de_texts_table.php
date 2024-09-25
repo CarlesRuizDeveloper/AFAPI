@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('llibres_de_text', function (Blueprint $table) {
             $table->id();
-            $table->string('curs');
             $table->string('titol');
+            $table->string('curs');
             $table->string('editorial');
             $table->text('observacions')->nullable();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); 
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade'); 
             $table->timestamps();
-        });
+        });   
     }
 
     /**

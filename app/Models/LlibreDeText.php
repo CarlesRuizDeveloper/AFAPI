@@ -11,5 +11,15 @@ class LlibreDeText extends Model
 
     protected $table = 'llibres_de_text';
 
-    protected $fillable = ['titol', 'curs', 'editorial', 'observacions'];
+    protected $fillable = ['titol', 'curs', 'editorial', 'observacions', 'category_id', 'user_id'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

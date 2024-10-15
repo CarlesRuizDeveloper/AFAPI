@@ -48,4 +48,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(LlibreDeText::class);
     }
+
+    public function chatsAsUser1()
+    {
+        return $this->hasMany(Chat::class, 'user_1_id');
+    }
+
+    public function chatsAsUser2()
+    {
+        return $this->hasMany(Chat::class, 'user_2_id');
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
 }

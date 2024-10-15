@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('llibres_de_text', function (Blueprint $table) {
+        Schema::create('llibre_de_texts', function (Blueprint $table) {
             $table->id();
             $table->string('titol');
             $table->string('curs');

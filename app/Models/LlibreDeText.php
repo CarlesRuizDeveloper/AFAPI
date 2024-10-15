@@ -9,7 +9,7 @@ class LlibreDeText extends Model
 {
     use HasFactory;
 
-    protected $table = 'llibres_de_text';
+    protected $table = 'llibre_de_texts';
 
     protected $fillable = ['titol', 'curs', 'editorial', 'observacions', 'category_id', 'user_id'];
 
